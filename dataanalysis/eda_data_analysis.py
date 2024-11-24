@@ -3,6 +3,7 @@ import io
 import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
+from ydata_profiling import ProfileReport
 
 
 def read_data(file_path):
@@ -13,9 +14,8 @@ def read_data(file_path):
 
 def eda_analysis(dataframe):
     logging.info("Analiza danych")
-    data = ""
 
-    data += "------------------ Opis kolumn ------------------\n"
+    data = "------------------ Opis kolumn ------------------\n"
     buffer = io.StringIO()
     dataframe.info(buf=buffer)
     data += buffer.getvalue()
@@ -65,14 +65,21 @@ def generate_plots(dataframe):
     plt.close()
 
 def save_results(data):
+    logging.info("Zapisywanie wyników analizy EDA do pliku")
     with open('eda_analysis.txt', 'w', encoding="utf-8") as file:
         file.write(data)
+
+def generate_report(dataframe):
+    logging.info("Generowanie raportu pandas profiling")
+    report = ProfileReport(dataframe, explorative=True)
+    report.to_file('pandas_profiling_report.html')
 
 def main(file_path):
     dataframe = read_data(file_path)
     data = eda_analysis(dataframe)
     save_results(data)
     generate_plots(dataframe)
+    generate_report(dataframe)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO,
