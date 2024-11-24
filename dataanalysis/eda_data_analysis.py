@@ -14,9 +14,8 @@ def read_data(file_path):
 
 def eda_analysis(dataframe):
     logging.info("Analiza danych")
-    data = ""
 
-    data += "------------------ Opis kolumn ------------------\n"
+    data = "------------------ Opis kolumn ------------------\n"
     buffer = io.StringIO()
     dataframe.info(buf=buffer)
     data += buffer.getvalue()
