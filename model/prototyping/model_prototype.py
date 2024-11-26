@@ -3,7 +3,9 @@ import logging
 import numpy as np
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.svm import LinearSVR
+
 from model.clean_split_data import clean_split_data
+
 
 def train_model(x_train, y_train, x_test):
     logging.info("Trenowanie modelu LinearSVC")
@@ -16,6 +18,7 @@ def train_model(x_train, y_train, x_test):
     results = model.predict(y_train)
 
     return model, results
+
 
 def evaluate_model(y_test, results):
     logging.info("Obliczanie wyniku modelu")
@@ -32,16 +35,19 @@ def evaluate_model(y_test, results):
 
     return data
 
+
 def save_results(data):
     logging.info("Zapisywanie wyników modelu do pliku")
     with open('linearsvc_score.txt', 'w', encoding="utf-8") as file:
         file.write(data)
+
 
 def main(file_path):
     x_train, y_train, x_test, y_test = clean_split_data(file_path)
     model, results = train_model(x_train, y_train, x_test)
     data = evaluate_model(y_test, results)
     save_results(data)
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, encoding="utf-8")

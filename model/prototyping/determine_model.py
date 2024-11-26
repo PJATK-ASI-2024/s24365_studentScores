@@ -3,6 +3,7 @@ import logging
 from tpot import TPOTRegressor
 from model.clean_split_data import clean_split_data
 
+
 def tpot_evaluate(x_train, x_test, y_train, y_test):
     tpot = TPOTRegressor(
         generations=5,
@@ -21,6 +22,7 @@ def tpot_evaluate(x_train, x_test, y_train, y_test):
     tpot.export("best_pipeline.py")
 
     return tpot
+
 
 def tpot_display_scores(tpot):
     pipelines = tpot.evaluated_individuals_
@@ -50,12 +52,14 @@ def tpot_display_scores(tpot):
         print(f"Miejsce {rank}:")
         print(f"Rodzaj pipeline'u: {pipeline_type}")
         print(f"Wynik CV: {score}")
-        print() 
+        print()
+
 
 def main(file_path):
     x_train, x_test, y_train, y_test = clean_split_data(file_path)
     tpot = tpot_evaluate(x_train, x_test, y_train, y_test)
     tpot_display_scores(tpot)
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, encoding="utf-8")

@@ -1,13 +1,14 @@
-import numpy as np
-import pandas as pd
 import logging
 
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+
 
 def get_data(file_path):
     logging.info("Odczytywanie danych z pliku")
     return pd.read_csv(file_path)
+
 
 def clean_data(dataframe):
     logging.info("Czyszczenie danych")
@@ -25,6 +26,7 @@ def clean_data(dataframe):
 
     return dataframe
 
+
 def standardize_data(dataframe):
     logging.info("Standaryzacja danych")
 
@@ -34,6 +36,7 @@ def standardize_data(dataframe):
 
     logging.info("Dane ustandaryzowane")
     return dataframe
+
 
 def encode_categoricals(dataframe):
     logging.info("Transformowanie zmiennych kategorycznych")
@@ -70,6 +73,7 @@ def encode_categoricals(dataframe):
 
     return dataframe
 
+
 def split_data(dataframe):
     logging.info("Usuwanie kolumny docelowej Exam_Score")
     y = dataframe["Exam_Score"]
@@ -78,6 +82,7 @@ def split_data(dataframe):
     logging.info("Podział danych na zbiór testowy i treningowy")
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
     return x_train, x_test, y_train, y_test
+
 
 def clean_split_data(file_path):
     dataframe = get_data(file_path)
@@ -88,9 +93,11 @@ def clean_split_data(file_path):
 
     return x_train, x_test, y_train, y_test
 
+
 def main(file_path):
     dataframe = clean_split_data(file_path)
     print(dataframe)
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, encoding="utf-8")
