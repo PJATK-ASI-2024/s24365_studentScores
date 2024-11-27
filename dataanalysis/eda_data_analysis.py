@@ -12,6 +12,7 @@ def read_data(file_path):
 
     return dataframe
 
+
 def eda_analysis(dataframe):
     logging.info("Analiza danych")
 
@@ -26,6 +27,7 @@ def eda_analysis(dataframe):
     data += missing_columns[missing_columns > 0].to_string()
 
     return data
+
 
 def generate_plots(dataframe):
     logging.info("Generowanie wykresów")
@@ -64,15 +66,18 @@ def generate_plots(dataframe):
     plt.savefig("../dataanalysis/diagrams/Correlation_matrix.png")
     plt.close()
 
+
 def save_results(data):
     logging.info("Zapisywanie wyników analizy EDA do pliku")
     with open('eda_analysis.txt', 'w', encoding="utf-8") as file:
         file.write(data)
 
+
 def generate_report(dataframe):
     logging.info("Generowanie raportu pandas profiling")
     report = ProfileReport(dataframe, explorative=True)
     report.to_file('pandas_profiling_report.html')
+
 
 def main(file_path):
     dataframe = read_data(file_path)
@@ -80,6 +85,7 @@ def main(file_path):
     save_results(data)
     generate_plots(dataframe)
     generate_report(dataframe)
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO,
