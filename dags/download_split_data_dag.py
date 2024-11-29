@@ -19,7 +19,7 @@ def get_data(file_path):
 
 
 def download_data(**kwargs):
-    dataframe = get_data("/Users/zosia/uczelnia/4_rok/1_sem/studentScores/dags/StudentPerformanceFactors.csv")
+    dataframe = get_data("/dags/dataset/StudentPerformanceFactors.csv")
     dataframe = dataframe.dropna()
     return dataframe.to_json()
 

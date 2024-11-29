@@ -91,6 +91,12 @@ def prepare_data(**kwargs):
     return dataframe
 
 
+def save_data_locally(**kwargs):
+    dataframe = kwargs["ti"].xcom_pull(task_ids="prepare_data")
+    with open("/Users/zosia/uczelnia/4_rok/1_sem/studentScores/dags/processeddata/processed_data.txt", "w", encoding="utf-8") as file:
+        file.write(dataframe.to_json())
+
+
 def upload_data_to_google_sheets(**kwargs):
     dataframe = kwargs["ti"].xcom_pull(task_ids="prepare_data")
     sheet = get_google_spreadsheet("Basic_train_data_clean")
@@ -109,8 +115,7 @@ with DAG("process_data_dag",
 
     prepare_data = PythonOperator(
         task_id="prepare_data",
-        python_callable=prepare_data,
-        provide_context=True
+        python_callable=prepare_data
     )
 
     upload_data_to_google_sheets = PythonOperator(
@@ -118,4 +123,9 @@ with DAG("process_data_dag",
         python_callable=upload_data_to_google_sheets
     )
 
-    get_data_from_google_sheets >> prepare_data >> upload_data_to_google_sheets
+    save_data_locally = PythonOperator(
+        task_id="save_data_locally",
+        python_callable=save_data_locally
+    )
+
+    get_data_from_google_sheets >> prepare_data >> save_data_locally >> upload_data_to_google_sheets
